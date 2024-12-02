@@ -134,7 +134,7 @@ void *thread_main(void *ptr)
 	data = ptr;
 
 	while (data->data_start < data->data_end) {
-		char c;
+		int c;
 		int n;
 		number_list_t *cur;
 
