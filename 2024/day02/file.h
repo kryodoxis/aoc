@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day01/file.h
+ * @file aoc/2024/day02/file.h
  * File IO module/wrapper.
  */
 

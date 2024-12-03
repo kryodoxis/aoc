@@ -5,6 +5,7 @@
 
 #include "main.h"
 
+#include <pthread.h>
 #include <stdio.h>
 
 #include "args.h"
