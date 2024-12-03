@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day1/compute.c
+ * @file aoc/2024/day01/compute.c
  * Computes the values of each part of the problem.
  */
 

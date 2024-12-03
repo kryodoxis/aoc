@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day1/main.c
+ * @file aoc/2024/day01/main.c
  * The main routine and compile-time configuration macros.
  */
 
@@ -15,8 +15,6 @@
 
 #include "args.h"
 #include "compute.h"
-#include "error.h"
-#include "file.h"
 #include "numlist.h"
 #include "sizes.h"
 #include "thread.h"

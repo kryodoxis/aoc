@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day01/error.h
+ * @file aoc/2024/day02/error.h
  * Error handling module.
  */
 

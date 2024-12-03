@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day01/args.c
+ * @file aoc/2024/day02/args.c
  * Argument parsing.
  */
 
@@ -21,4 +21,5 @@ void args_parse(int argc, char *argv[])
 	}
 
 	file_open(argv[1]);
+	file_parse();
 }

@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day1/sizes.h
+ * @file aoc/2024/day01/sizes.h
  * Sizes of various data structures.
  */
 

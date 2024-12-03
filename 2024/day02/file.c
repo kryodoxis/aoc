@@ -5,8 +5,10 @@
 
 #include "file.h"
 
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "error.h"
 
@@ -19,6 +21,11 @@ char *file_data;
  * The file size.
  */
 long file_size;
+
+/**
+ * A list of lines in the file.
+ */
+struct file_lines file_lines;
 
 /**
  * Opens and reads a file. Returns 0 on success and 1 on failure. The
@@ -61,4 +68,23 @@ void file_open(char *filename)
 	}
 
 	fclose(file_ptr);
+}
+
+/**
+ * Parses `file_data` into a list of lines.
+ */
+void file_parse(void)
+{
+	char *cur;
+	char *next;
+
+	cur = file_data;
+	file_lines.count = 0;
+
+	while ((next = strchr(cur, '\n')) != NULL) {
+		file_lines.data[file_lines.count++] = cur;
+
+		*next++ = 0;
+		cur = next;
+	}
 }

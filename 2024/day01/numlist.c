@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day1/lists.c
+ * @file aoc/2024/day01/lists.c
  * Structures and routines for handling lists of numbers.
  */
 

@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day1/numlist.h
+ * @file aoc/2024/day01/numlist.h
  * Structures and routines for handling lists of numbers.
  */
 

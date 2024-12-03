@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day01/error.c
+ * @file aoc/2024/day02/error.c
  * Error handling module.
  */
 

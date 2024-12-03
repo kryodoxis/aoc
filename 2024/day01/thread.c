@@ -1,11 +1,12 @@
 /**
- * @file aoc/2024/day1/thread.c
+ * @file aoc/2024/day01/thread.c
  * Threading routines and data structures.
  */
 
 #include "thread.h"
 
 #include <pthread.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -15,7 +16,7 @@
 #include "sizes.h"
 
 /**
- * The global number list.
+ * The global number lists.
  */
 number_list_t global_data[NUMBER_LIST_COUNT];
 
@@ -49,7 +50,7 @@ static int read_number(thread_data_t *data)
  */
 static void sync_data(thread_data_t *data)
 {
-	int i;
+	size_t i;
 
 	pthread_mutex_lock(&global_lock);
 
@@ -85,7 +86,7 @@ static void sync_data(thread_data_t *data)
 void thread_init(pthread_t *threads, thread_data_t *chunks)
 {
 	char *pos;
-	int i;
+	size_t i;
 
 	pos = file_data;
 
@@ -113,7 +114,7 @@ void thread_init(pthread_t *threads, thread_data_t *chunks)
  */
 void thread_free(pthread_t *threads, thread_data_t *chunks)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < THREAD_COUNT; i++) {
 		pthread_join(threads[i], NULL);

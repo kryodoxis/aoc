@@ -1,5 +1,5 @@
 /**
- * @file aoc/2024/day01/args.h
+ * @file aoc/2024/day02/args.h
  * Argument parsing.
  */
 
