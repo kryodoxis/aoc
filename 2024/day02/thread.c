@@ -43,7 +43,7 @@ static int read_number(int line_no, int *pos)
 	line = file_lines.data[line_no];
 	next = strchr(&line[*pos], ' ');
 
-	if (next == NULL) [[unlikely]] {
+	if (next == NULL) {
 		next = strchr(line, 0);
 
 		if (&line[*pos] == next)
@@ -310,16 +310,16 @@ void *thread_main(void *ptr)
 		goto next_iter;
 
 		/* move to a new line */
-		reset_line:
-			i = 0;
-			pos = 0;
+	reset_line:
+		i = 0;
+		pos = 0;
 
-			chunk_keep = 1;
-			damp_keep = 0;
+		chunk_keep = 1;
+		damp_keep = 0;
 
-			line++;
+		line++;
 
-		next_iter:
+	next_iter:
 	}
 
 	pthread_mutex_lock(&global_lock);
