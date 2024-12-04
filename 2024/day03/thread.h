@@ -20,9 +20,15 @@ typedef struct thread_data {
 } thread_data_t;
 
 /**
- * The global sum.
+ * The global basic (part 1) sum.
  */
-extern int global_sum;
+extern int global_basic_sum;
+
+/**
+ * The global complex (part 2) sum.
+ */
+extern int global_complex_sum;
+
 
 /**
  * The mutex which controls the global safe line count.

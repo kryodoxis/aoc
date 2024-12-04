@@ -29,7 +29,8 @@ int main(int argc, char *argv[])
 	thread_init(threads, chunks);
 	thread_free(threads);
 
-	printf("Sum: %d\n", global_sum);
+	printf("Basic sum: %d\n", global_basic_sum);
+	printf("Complex sum: %d\n", global_complex_sum);
 
 	return 0;
 }

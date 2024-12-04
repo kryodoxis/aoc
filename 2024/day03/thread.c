@@ -15,14 +15,45 @@
 #include "sizes.h"
 
 /**
- * The global sum.
+ * The global basic (part 1) sum.
  */
-int global_sum;
+int global_basic_sum;
+
+/**
+ * The global complex (part 2) sum.
+ */
+int global_complex_sum;
 
 /**
  * The mutex which controls the global safe line count.
  */
 pthread_mutex_t global_lock;
+
+/**
+ * Returns the next do() or don't() call.
+ */
+static char *next_do(char *ptr, int *flag)
+{
+	char *a;
+	char *b;
+
+	a = strstr(ptr, "do()");
+	b = strstr(ptr, "don't()");
+
+	if (!b || a < b) {
+		if (flag)
+			*flag = 1;
+
+		return a;
+	}
+
+	else {
+		if (flag)
+			*flag = 0;
+
+		return b;
+	}
+}
 
 /**
  * Initializes the threads after calculating the relevant values.
@@ -32,7 +63,9 @@ void thread_init(pthread_t *threads, thread_data_t *chunks)
 	size_t pos;
 	size_t i;
 
-	global_sum = 0;
+	global_basic_sum = 0;
+	global_complex_sum = 0;
+
 	pos = 0;
 
 	for (i = 0; i < THREAD_COUNT; i++) {
@@ -72,13 +105,35 @@ void *thread_main(void *ptr)
 {
 	thread_data_t *data;
 
+	char *next;
 	char *pos;
-	int sum;
+	char *end;
+
+	int flag_cur;
+	int flag_next;
+
+	int basic_sum;
+	int complex_sum;
 
 	data = ptr;
-	pos = &file_data[data->char_start];
+
+	if (data->char_start == 0)
+		flag_cur = 1;
+	
+	if (data->char_start == 0)
+		pos = file_data;
+	else
+		pos = next_do(&file_data[data->char_start], &flag_cur);
+
+	next = next_do(pos, &flag_next);
 	pos = strstr(pos, "mul(");
-	sum = 0;
+	end = next_do(&file_data[data->char_end], NULL);
+
+	if (end == NULL)
+		end = &file_data[data->char_end];
+
+	basic_sum = 0;
+	complex_sum = 0;
 
 	/* there's actually a much faster way of doing this. we can 
 	 * load characters into SIMD vectors and use bit masks, then
@@ -90,12 +145,19 @@ void *thread_main(void *ptr)
 	 * in performance to make it worth it. so I use the naive
 	 * algorithm (with no caching, even!) */
 
-	while (pos < &file_data[data->char_end]) {
+	while (pos && pos < end) {
 		int n;
 		int k;
 
-		if (pos == NULL)
-			break;
+		while (next && pos > next) {
+			pos = strstr(next, "mul(");
+
+			if (pos == NULL)
+				goto sync_data;
+
+			flag_cur = flag_next;
+			next = next_do(pos, &flag_next);
+		}
 		
 		n = 0;
 		k = 0;
@@ -117,14 +179,17 @@ void *thread_main(void *ptr)
 		if (k == 0 || *pos++ != ')')
 			goto next_iter;
 
-		sum += n * k;
+		basic_sum += n * k;
+		complex_sum += n * k * flag_cur;
 
 	next_iter:
 		pos = strstr(pos, "mul(");
 	}
 
+sync_data:
 	pthread_mutex_lock(&global_lock);
-	global_sum += sum;
+	global_basic_sum += basic_sum;
+	global_complex_sum += complex_sum;
 	pthread_mutex_unlock(&global_lock);
 
 	return NULL;
