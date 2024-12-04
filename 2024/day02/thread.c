@@ -94,7 +94,7 @@ static int validate_chunk(vec chunk, int size)
 	spare = shift == zero;
 	spare[0] = 0;
 
-	if (memcmp(&spare, &zero, size * sizeof(int)) != 0) [[unlikely]]
+	if (memcmp(&spare, &zero, size * sizeof(int)) != 0)
 		return 0;
 
 	/* make sure they're all positive */
@@ -107,7 +107,7 @@ static int validate_chunk(vec chunk, int size)
 	spare = shift > three;
 	spare[0] = 0;
 
-	if (memcmp(&spare, &zero, size * sizeof(int)) != 0) [[likely]]
+	if (memcmp(&spare, &zero, size * sizeof(int)) != 0)
 		return 0;
 
 	/* make sure there isn't a mix of inc/dec */
@@ -115,7 +115,7 @@ static int validate_chunk(vec chunk, int size)
 	spare = shift < zero;
 	spare[0] = 0;
 	
-	if (memcmp(&spare, &zero, size * sizeof(int)) != 0) [[likely]]
+	if (memcmp(&spare, &zero, size * sizeof(int)) != 0)
 		return 0;
 
 	/* safe! */
@@ -132,10 +132,7 @@ static int validate_damp(vec chunk, int size)
 	size_t j;
 
 	vec zero;
-	int count;
-
 	memset(&zero, 0, size * sizeof(int));
-	count = 0;
 
 	for (i = 0; i < size; i++) {
 		vec spare;
@@ -246,7 +243,7 @@ void *thread_main(void *ptr)
 
 			n = read_number(line, &pos);
 
-			if (n < 0) [[unlikely]] {
+			if (n < 0) {
 				size = i;
 				done = 1;
 
@@ -303,11 +300,11 @@ void *thread_main(void *ptr)
 			chunk = __builtin_shuffle(chunk, mask);
 
 			i = 2; /* start reading at 2 */
-			goto next_iter;
+			continue;
 		}
 
 		/* just in case */
-		goto next_iter;
+		continue;
 
 		/* move to a new line */
 	reset_line:
@@ -318,8 +315,6 @@ void *thread_main(void *ptr)
 		damp_keep = 0;
 
 		line++;
-
-	next_iter:
 	}
 
 	pthread_mutex_lock(&global_lock);

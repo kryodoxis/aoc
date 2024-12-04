@@ -21,8 +21,6 @@ int main(int argc, char *argv[])
 	pthread_t threads[THREAD_COUNT];
 	thread_data_t chunks[THREAD_COUNT];
 
-	int i;
-
 	args_parse(argc, argv);
 
 	sizes_calc();
