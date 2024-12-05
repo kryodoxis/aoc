@@ -7,3 +7,7 @@ added.
 
 Every solution should compile with `gcc *.c -std=c89 -Wpedantic -Wall`.
 On many machines you will have to manually link with `pthreads`/`math`.
+
+> [!NOTE]
+> Because it's exam season I don't really have the chance to work on
+> these much right now; I'll continue and get caught up in a bit!
